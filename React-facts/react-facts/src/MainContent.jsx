@@ -1,15 +1,14 @@
 
 import './index.css'
 
-
 export function ManiContent() {
   return(
-  <main>
-    <h1>Exiting thigs about to learn react</h1>
-    <ol>
-        <li>It's is easy</li>
-        <li>It has large community</li>
-        <li>It's is job demanding</li>
+  <main className='main-content'>
+    <h1 className='main-content-title'>Why I choose to learn React?</h1>
+    <ol className='main-content-list'>
+        <li className='main-content-list-item'>It's is easy</li>
+        <li className='main-content-list-item'>It has large community</li>
+        <li className='main-content-list-item'>It's is job demanding</li>
     </ol>
   </main>
   )
