@@ -5,18 +5,16 @@ import './index.css'
 
 export function Header() {
   return (
-    <div>
-      <header>
-          <img src={reactlogo} alt="" />
+      <header className='header'>
+          <img src={reactlogo} className='react-logo' alt="" />
           <nav>
             <ul className="nav-list">
-              <li>Pricing</li>
-              <li>About</li>
-              <li>Contact</li>
+              <li className='nav-list-item'>Pricing</li>
+              <li className='nav-list-item'>About</li>
+              <li className='nav-list-item'>Contact</li>
             </ul>
           </nav>
       </header>
-    </div>      
   );
 }
 
