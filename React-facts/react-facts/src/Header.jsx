@@ -1,6 +1,5 @@
-import React from 'react';
 import reactlogo from './assets/react.svg';
-import './index.css'
+import './index.css';
 
 
 export function Header() {
