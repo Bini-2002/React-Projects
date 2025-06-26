@@ -5,17 +5,20 @@ export default function Entry(props) {
   return (
     <article className="entry">
       <div className="entry-image-container">
-        <img src={props.img} alt="Mount Fuji" className="entry-image" />
+        <img 
+        src={props.entry.img?.src} 
+        alt={props.entry.img?.alt} 
+        className="entry-image" />
       </div>
       <div className="entry-details">
         <div className="entry-location">
           <img src={headerlogo} alt="Location Icon" className="location-icon" />
-          <span className="entry-country">{props.country}</span>
-          <a href={props.googleMapsLink} target="_blank" rel="noopener noreferrer" className="entry-map-link">View on Google Maps</a>
+          <span className="entry-country">{props.entry.country}</span>
+          <a href={props.entry.googleMapsLink} target="_blank" rel="noopener noreferrer" className="entry-map-link">View on Google Maps</a>
         </div>
-        <h2 className="entry-title">{props.title}</h2>
-        <p className="entry-dates">{props.dates}</p>
-        <p className="entry-text">{props.text}</p>
+        <h2 className="entry-title">{props.entry.title}</h2>
+        <p className="entry-dates">{props.entry.dates}</p>
+        <p className="entry-text">{props.entry.text}</p>
       </div>
 
     </article>
