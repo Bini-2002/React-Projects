@@ -39,7 +39,11 @@ export async function getRecipeFromChefClaude(ingredientsArr) {
 
 // Make sure you set an environment variable in Scrimba 
 // for HF_ACCESS_TOKEN
-const hf = new HfInference(process.env.HF_ACCESS_TOKEN)
+const HF_ACCESS_TOKEN = import.meta.env.VITE_HF_ACCESS_TOKEN;
+if (!HF_ACCESS_TOKEN) {
+    throw new Error("Hugging Face API key is missing. Please set VITE_HF_ACCESS_TOKEN in your .env file.");
+}
+const hf = new HfInference(HF_ACCESS_TOKEN);
 
 export async function getRecipeFromMistral(ingredientsArr) {
     const ingredientsString = ingredientsArr.join(", ")

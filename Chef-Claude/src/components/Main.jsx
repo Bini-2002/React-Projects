@@ -9,7 +9,6 @@ export default function Main() {
     const [recipeShown, setRecipeShown] = React.useState(false)
     
 
-
     function addIngredient(formData) {
         const newIngredient = formData.get("ingredient")
         if (newIngredient) {
@@ -22,8 +21,7 @@ export default function Main() {
     function toggleRecipeShown() {
         setRecipeShown(prevState => !prevState)
     }
-
-
+ 
 
     return (
         <main>
