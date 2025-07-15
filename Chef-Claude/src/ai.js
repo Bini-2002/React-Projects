@@ -17,8 +17,6 @@ You are an assistant that receives a list of ingredients that a user has and sug
 // API keys private.
 
 const anthropic = new Anthropic({
-    // Make sure you set an environment variable in Scrimba 
-    // for ANTHROPIC_API_KEY
     apiKey: process.env.ANTHROPIC_API_KEY,
     dangerouslyAllowBrowser: true,
 })
@@ -37,8 +35,7 @@ export async function getRecipeFromChefClaude(ingredientsArr) {
     return msg.content[0].text
 }
 
-// Make sure you set an environment variable in Scrimba 
-// for HF_ACCESS_TOKEN
+// Hugging Face API setup (Vite env variable)
 const HF_ACCESS_TOKEN = import.meta.env.VITE_HF_ACCESS_TOKEN;
 if (!HF_ACCESS_TOKEN) {
     throw new Error("Hugging Face API key is missing. Please set VITE_HF_ACCESS_TOKEN in your .env file.");
