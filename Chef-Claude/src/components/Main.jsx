@@ -2,6 +2,7 @@ import React from 'react'
 import '../index.css'
 import ClaudeRecipe from './ClaudeRecipe'
 import IngredientList from './IngredientList'
+import { getRecipeFromMistral } from '../ai'
 
 export default function Main() {
 
