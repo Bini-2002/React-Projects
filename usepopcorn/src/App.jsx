@@ -180,9 +180,7 @@ function WatchedBox() {
     {isOpen2 && (
       <>
         <WatchedSummary watched={watched} />
-        <WatchedMovieList watched = {watched} />
-
-        
+        <WatchedMovieList watched = {watched} />        
       </>
     )}
   </div>
