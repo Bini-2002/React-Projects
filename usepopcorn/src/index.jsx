@@ -7,8 +7,8 @@ import StarRating from './StarRating.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     {/*<App />*/}
-    <StarRating maxRating = {5} />
-    <StarRating maxRating = {10} />
+    <StarRating maxRating={5} />
+    <StarRating maxRating={5} messages={['Terrible', 'Bad', 'Okay', 'Good', 'Excellent']} defaultRating={3} />
 
   </StrictMode>,
 )
