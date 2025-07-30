@@ -75,13 +75,6 @@ export default function StarRating({
   );
 }
 
-/*
-
-
-EMPTY STAR
-
-
-*/
 
 function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
   return (
