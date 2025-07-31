@@ -65,7 +65,8 @@ export default function App() {
     async function fetchMovies() {
       try {
         setIsLoading(true);
-        const response = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${tempQuery}`);
+        setError('');
+        const response = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
 
       if (!response.ok) {
         throw new Error("Something went wrong with fetching movies");
@@ -85,7 +86,7 @@ export default function App() {
     }
   }
   fetchMovies();
-}, []);
+}, [query]);
 
 
   return (
