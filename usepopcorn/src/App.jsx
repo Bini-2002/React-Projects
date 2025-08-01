@@ -59,7 +59,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [query, setQuery] = useState("");
-  const tempQuery = "interstellar"; 
+  const [selectedId , setSelectedID] = useState(null);
 
   useEffect(function () {
     async function fetchMovies() {
@@ -78,6 +78,7 @@ export default function App() {
         throw new Error("Movie not found");
       }
       setMovies(data.Search);
+      console.log(data.Search);
     } catch (err) {
       console.error(err.message);
       setError(err.message);
@@ -85,6 +86,12 @@ export default function App() {
       setIsLoading(false);
     }
   }
+  if (query.length < 3) {
+    setMovies([]);
+    setError("");
+    return;
+  }
+
   fetchMovies();
 }, [query]);
 
