@@ -70,6 +70,11 @@ export default function App() {
     setSelectedID(null);
   }
 
+  function handleAddWatched(movie) {
+    setWatched((watched) => [...watched, movie]);
+    setSelectedID(null);
+  }
+
   useEffect(function () {
     async function fetchMovies() {
       try {
@@ -124,7 +129,8 @@ export default function App() {
         <Box>{
           selectedId ? <MovieDetails
             selectedId={selectedId}
-            onCloseMovie={handleCloseDetails} /> :
+            onCloseMovie={handleCloseDetails}
+            onAddWatched={handleAddWatched} /> :
             <>
               <WatchedSummary watched={watched} />
               <WatchedMovieList watched={watched} />
@@ -247,7 +253,7 @@ function Movie({ movie, onSelectMovie }) {
   )
 }
 
-function MovieDetails({ selectedId, onCloseMovie }) {
+function MovieDetails({ selectedId, onCloseMovie , onAddWatched }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -264,6 +270,17 @@ function MovieDetails({ selectedId, onCloseMovie }) {
     Genre: genre,
   } = movie;
 
+  function handleAdd(){
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      runtime: Number(runtime.split(" ").at[0]),
+      imdbRating: Number(imdbRating),
+  }
+    onAddWatched(newWatchedMovie);
+  }
   useEffect(function () {
     async function getMovieDetails() {
       setIsLoading(true);
@@ -298,6 +315,7 @@ function MovieDetails({ selectedId, onCloseMovie }) {
       </header>
       <section>
         <StarRating maxRating={10} size={24} />
+        <button className="btn-add" onClick={handleAdd}> + Add to List</button>
         <p><em>{plot}</em></p>
         <p>Starring {actors}</p>
         <p>Directed by {director}</p>
@@ -309,7 +327,7 @@ function MovieDetails({ selectedId, onCloseMovie }) {
   )};
 
 
-function WatchedSummary({ watched }) {
+function WatchedSummary({ watched , onAddWatched }) {
   const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
   const avgUserRating = average(watched.map((movie) => movie.userRating));
   const avgRuntime = average(watched.map((movie) => movie.runtime));
@@ -339,7 +357,7 @@ function WatchedSummary({ watched }) {
   )
 }
 
-function WatchedMovieList({ watched }) {
+function WatchedMovieList({ watched , onAddWatched }) {
   return (
     <ul className="list">
       {watched.map((movie) => (
