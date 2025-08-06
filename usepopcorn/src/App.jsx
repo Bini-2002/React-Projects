@@ -322,10 +322,15 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     }
     getMovieDetails();
   }, [selectedId]);
- 
-  useEffect(function () {
+
+  useEffect(function
+    () {
     if (!title) return;
     document.title = `Movie | ${title}`;
+
+    return function () {
+      document.title = "usePopcorn";
+    }
   }, [title]);
 
   return (
@@ -412,7 +417,7 @@ function WatchedSummary({ watched }) {
   )
 };
 
-function WatchedMovieList({ watched , onRemoveMovie }) {
+function WatchedMovieList({ watched, onRemoveMovie }) {
   return (
     <ul className="list">
       {watched.map((movie) => (
