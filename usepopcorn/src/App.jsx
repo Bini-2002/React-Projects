@@ -307,7 +307,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 
 
   return (
-    <div className="details">
+    <div className="details">m
       {isLoading ? <Loader /> :
         <>
           <header>
@@ -332,12 +332,15 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
               onSetRating={handleSetRating}
             />
 
-            {userRating > 0 &&
+            {userRating > 0 && (
               <button className="btn-add"
                 onClick={handleAdd}>
-                + Add to List</button>}
+                + Add to List</button>
+            )}
 
-            <p><em>{plot}</em></p>
+            <p>
+              <em>{plot}</em>
+            </p>
             <p>Starring {actors}</p>
             <p>Directed by {director}</p>
           </section>
