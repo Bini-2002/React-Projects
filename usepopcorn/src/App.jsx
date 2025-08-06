@@ -71,11 +71,6 @@ export default function App() {
   }
 
   function handleAddWatched(movie) {
-    setWatched((watched) => [...watched, movie]);
-    setSelectedID(null);
-  }
-
-  function handleAddWatched(movie) {
   setWatched((watched) => {
     if (watched.some((m) => m.imdbID === movie.imdbID)) {
       return watched; 
