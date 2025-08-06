@@ -75,6 +75,16 @@ export default function App() {
     setSelectedID(null);
   }
 
+  function handleAddWatched(movie) {
+  setWatched((watched) => {
+    if (watched.some((m) => m.imdbID === movie.imdbID)) {
+      return watched; 
+    }
+    return [...watched, movie];
+  });
+  setSelectedID(null);
+}
+
   useEffect(function () {
     async function fetchMovies() {
       try {
