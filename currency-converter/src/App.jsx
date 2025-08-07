@@ -8,6 +8,7 @@ export default function App() {
   const [fromCurrency, setFromCurrency] = useState('USD');
   const [toCurrency, setToCurrency] = useState('EUR');
   const [exchangeRate, setExchangeRate] = useState(0);
+  const [convertedAmount, setConvertedAmount] = useState(0);
 
 
 
@@ -20,7 +21,7 @@ export default function App() {
   };
 
   const handleToCurrencyChange = (e) => {
-    setToCurrency(Number(e.target.value));
+    setConvertedAmount(Number(e.target.value));
   };
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function App() {
       setExchangeRate(data.rates[toCurrency]);
     }
     convert();
-  }, [fromCurrency, toCurrency]);
+  }, [ammount, fromCurrency, toCurrency]);
 
 
   return(
