@@ -1,4 +1,3 @@
-import React, { use } from 'react';
 import './App.css';
 import { useState , useEffect } from 'react';
 
@@ -9,6 +8,7 @@ export default function App() {
   const [toCurrency, setToCurrency] = useState('EUR');
   const [exchangeRate, setExchangeRate] = useState(0);
   const [convertedAmount, setConvertedAmount] = useState(0);
+  const [isLoading, setisLoading] = useState(false);
 
 
 
@@ -26,18 +26,34 @@ export default function App() {
 
   useEffect(() => {
     async function convert() {
+      setisLoading(true);
       const res = await fetch(`https://api.frankfurter.app/latest?amount=${ammount}&from=${fromCurrency}&to=${toCurrency}`);
       const data = await res.json();
       setExchangeRate(data.rates[toCurrency]);
+      setisLoading(false);
     }
+    if(fromCurrency === toCurrency) {
+      setConvertedAmount(ammount);
+      return;
+    }
+
     convert();
   }, [ammount, fromCurrency, toCurrency]);
 
 
   return(
     <div>
-      <input type="text" value={ammount} onChange={handleAmountChange} />
-      <select value={fromCurrency} onChange={handleFromCurrencyChange}>
+      <input 
+      type="text" 
+      value={ammount} 
+      onChange={handleAmountChange} />
+      disabled={isLoading}
+
+      <select 
+      value={fromCurrency} 
+      onChange={handleFromCurrencyChange}
+      disabled={isLoading}
+      >
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
