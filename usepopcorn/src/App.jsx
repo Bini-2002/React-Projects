@@ -2,6 +2,7 @@ import "./App.css";
 import { useRef, useEffect, useState } from "react";
 import StarRating from "./StarRating";
 import useMovies from "./useMovies";
+import useLocalStorageState from "./useLocalStorageState";
 
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
@@ -12,12 +13,8 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedID] = useState(null);
 
-  const {movies , isLoading , error} = useMovies(query , handleCloseDetails);
-
-  const [watched, setWatched] = useState(function () {
-    const storedWatched = localStorage.getItem("watched");
-    return JSON.parse(storedWatched)
-  });
+  const {movies , isLoading , error} = useMovies(query);
+  const [watched , setWatched] = useLocalStorageState([] ,'watched');
 
   function handleSelectedMovie(id) {
     setSelectedID((selectedId) => (id === selectedId) ? null : id);
@@ -34,17 +31,6 @@ export default function App() {
   function handleRemoveWatched(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
-
-
-  useEffect(function () {
-    localStorage.setItem('watched', JSON.stringify
-      (watched));
-  },
-    [watched]);
-
-
-
-  
 
   return (
     <>
@@ -120,26 +106,9 @@ function Search({ query, setQuery }) {
   const inputEl = useRef(null)
 
   useEffect(function () {
-    function callback(e) {
-      if (document.activeElement === inputEl.current)
-        return;
-
-      if (e.code !== "Enter") 
-        return;
-      inputEl.current.focus();
-      setQuery("");
-
-    }
-
-    document.addEventListener("keydown", callback);
-    return () => document.removeEventListener("keydown", 
-    callback);
-
-  }, []);
-  //  useEffect(function () {
-  //    const e = document.querySelector(".search");
-  //    e.focus()
-  //  }, []);
+      const e = document.querySelector(".search");
+      e.focus();
+    }, []);
 
 
   return (

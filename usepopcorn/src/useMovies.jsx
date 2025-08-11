@@ -4,13 +4,14 @@ const KEY = "2eb8ba7c"
 
 
 export default function useMovies(query , callback){
+
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
    
 
   useEffect(function () {
-    callback?.();
+    //callback?.();
 
     const controller = new AbortController();
 
