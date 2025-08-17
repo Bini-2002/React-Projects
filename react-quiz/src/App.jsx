@@ -1,11 +1,10 @@
-import DateCounter from "./DateCounter";
+import Header from './Header';
 
-function App() {
+export default function App() {
   return (
-    <>
-      <DateCounter />
-    </>
+    <div className="app">
+      <Header/>
+    </div>
   );
 }
 
-export default App;
