@@ -4,6 +4,7 @@ import Loader from './Loader';
 import Error from './Error';
 import StartScreen from './StartScreen';
 import Question from './Question';
+import NextButton from './NextButton';
 import { useReducer, useEffect } from 'react';
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
   // 'loading' , 'error', 'ready' , 'active' , 'finished'
   status: "loading",
   index: 0,
-  answer: null
+  answer: null,
+  points: 0
 };
 
 function reducer(state, action) {
@@ -33,17 +35,28 @@ function reducer(state, action) {
         status: "active"
       };
     case "answer":
+      const question = state.questions.at[state.index];
       return {
         ...state,
-        answer: action.payload
+        answer: action.payload,
+        points: action.payload === question.correctOption
+          ? state.points + question.points // each question have different level of difficulty
+          : state.points,
       };
+    case "nextQuestion":
+      return {
+        ...state,
+        index: state.index + 1,
+        answer: null
+      };
+
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }
 }
 
 export default function App() {
-  const [{ questions, status, index , answer }, dispatch] = useReducer
+  const [{ questions, status, index, answer, points }, dispatch] = useReducer
     (reducer, initialState)
 
   const numQuestions = questions.length;
@@ -66,11 +79,17 @@ export default function App() {
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
         {status === "active" && (
-          <Question
-            question={questions[index]}
-            dispatch={dispatch}
-            answer={answer}
-          />
+          <>
+            <Question
+              question={questions[index]}
+              dispatch={dispatch}
+              answer={answer}
+              points={points}
+            />
+            <NextButton
+              dispatch={dispatch}
+              answer={answer} />
+          </>
         )}
 
       </Main>

@@ -1,5 +1,10 @@
-export default function Options({ question, dispatch, answer }) {
+export default function Options({ question, dispatch, answer , points }) {
   const hasAnswered = answer !== null;
+
+  const handleClick = (index) => {
+    dispatch({ type: "answer", payload: index });
+    dispatch({ type: "updateScore", payload: question.correctOption === index });
+  };
 
   return (
     <div className="options">
@@ -14,7 +19,7 @@ export default function Options({ question, dispatch, answer }) {
           `}
           key={option}
           disabled={hasAnswered}
-          onClick={() => dispatch({ type: "answer", payload: index })}
+          onClick={() => handleClick(index)}
         >
           {option}
         </button>
