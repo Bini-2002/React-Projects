@@ -7,7 +7,11 @@ import Question from './Question';
 import NextButton from './NextButton';
 import Progress from './Progress';
 import FinishScreen from './FinishScreen';
+import Timer from './Timer';
+import Footer from './Footer';
 import { useReducer, useEffect } from 'react';
+
+const SECS_PER_QUESTION = 30; // seconds per question
 
 const initialState = {
   questions: [],
@@ -16,7 +20,8 @@ const initialState = {
   index: 0,
   answer: null,
   points: 0,
-  highscore : 0
+  highscore: 0,
+  secondsRemaining : null
 };
 
 function reducer(state, action) {
@@ -35,7 +40,8 @@ function reducer(state, action) {
     case "start":
       return {
         ...state,
-        status: "active"
+        status: "active",
+        secondsRemaining: state.questions.length * SECS_PER_QUESTION // 30 seconds per question
       };
     case "answer":
       const question = state.questions.at(state.index);
@@ -55,17 +61,21 @@ function reducer(state, action) {
     case "finish":
       return {
         ...state,
-        status: "finished" , 
-        highscore : state.points > state.highscore ? state.points : state.highscore
+        status: "finished",
+        highscore: state.points > state.highscore ? state.points : state.highscore
       };
     case "restart":
       return {
-        ...state ,
+        ...initialState,
+        questions: state.questions,
         status: "ready",
-        index: 0,
-        answer: null,
-        points: 0
       }
+    case "tick":
+      return {
+        ...state,
+        secondsRemaining: state.secondsRemaining - 1,
+        status: state.secondsRemaining === 0 ? "finished" : state.status
+      };
 
     default:
       throw new Error(`Unknown action type: ${action.type}`);
@@ -73,11 +83,11 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [{ questions, status, index, answer, points, highscore }, dispatch] = useReducer
+  const [{ questions, status, index, answer, points, highscore , secondsRemaining}, dispatch] = useReducer
     (reducer, initialState)
 
   const numQuestions = questions.length;
-  const maxPossiblePoints = questions.reduce((prev, cur) => prev + cur.points , 0);
+  const maxPossiblePoints = questions.reduce((prev, cur) => prev + cur.points, 0);
 
   useEffect(function () {
     fetch("http://localhost:8000/questions")
@@ -98,12 +108,12 @@ export default function App() {
         )}
         {status === "active" && (
           <>
-            <Progress 
-            index={index} 
-            numQuestions={numQuestions}
-            points={points}
-            maxPossiblePoints={maxPossiblePoints}
-            answer={answer}
+            <Progress
+              index={index}
+              numQuestions={numQuestions}
+              points={points}
+              maxPossiblePoints={maxPossiblePoints}
+              answer={answer}
             />
             <Question
               question={questions[index]}
@@ -111,11 +121,16 @@ export default function App() {
               answer={answer}
               points={points}
             />
-            <NextButton
+            <Footer>
+              <Timer 
               dispatch={dispatch}
-              answer={answer}
-              index={index}
-              numQuestions = {numQuestions} />
+              secondsRemaining = {secondsRemaining} />
+              <NextButton
+                dispatch={dispatch}
+                answer={answer}
+                index={index}
+                numQuestions={numQuestions} />
+            </Footer>
           </>
         )}
         {status === "finished" && (
