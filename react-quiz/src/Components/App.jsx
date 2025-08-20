@@ -10,16 +10,18 @@ const initialState = {
   questions: [],
   // 'loading' , 'error', 'ready' , 'active' , 'finished'
   status: "loading",
-  index : 0,
+  index: 0,
+  answer: null
 };
 
 function reducer(state, action) {
   switch (action.type) {
     case "setQuestions":
-      return { 
-        ...state, 
-        questions: action.payload, 
-        status: "ready" };
+      return {
+        ...state,
+        questions: action.payload,
+        status: "ready"
+      };
     case "dataFailed":
       return {
         ...state,
@@ -30,14 +32,19 @@ function reducer(state, action) {
         ...state,
         status: "active"
       };
+    case "answer":
+      return {
+        ...state,
+        answer: action.payload
+      };
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }
 }
 
 export default function App() {
-  const [{questions , status , index} , dispatch] = useReducer
-  (reducer , initialState)
+  const [{ questions, status, index , answer }, dispatch] = useReducer
+    (reducer, initialState)
 
   const numQuestions = questions.length;
 
@@ -53,12 +60,18 @@ export default function App() {
       <Header />
 
       <Main>
-        {status === "loading" && <Loader/>}
+        {status === "loading" && <Loader />}
         {status === "error" && <Error />}
         {status === "ready" && numQuestions > 0 && (
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
-        {status === "active" && <Question question={questions[index]} />}
+        {status === "active" && (
+          <Question
+            question={questions[index]}
+            dispatch={dispatch}
+            answer={answer}
+          />
+        )}
 
       </Main>
     </div>
