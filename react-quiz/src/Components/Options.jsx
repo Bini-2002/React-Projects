@@ -3,7 +3,6 @@ export default function Options({ question, dispatch, answer , points }) {
 
   const handleClick = (index) => {
     dispatch({ type: "answer", payload: index });
-    dispatch({ type: "updateScore", payload: question.correctOption === index });
   };
 
   return (

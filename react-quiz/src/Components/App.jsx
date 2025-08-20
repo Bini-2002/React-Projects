@@ -35,7 +35,7 @@ function reducer(state, action) {
         status: "active"
       };
     case "answer":
-      const question = state.questions.at[state.index];
+      const question = state.questions.at(state.index);
       return {
         ...state,
         answer: action.payload,
